@@ -1,0 +1,143 @@
+<!DOCTYPE html><html lang="[&quot;zh-CN&quot;,&quot;en&quot;,&quot;default&quot;]"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="just a record of programmer's life"><title>effective c++ notes | 墨写</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/8.0.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">effective c++ notes</h1><a id="logo" href="/.">墨写</a><p class="description"></p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">effective c++ notes</h1><div class="post-meta">Aug 25, 2016<script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script><span id="busuanzi_container_page_pv"> | <span id="busuanzi_value_page_pv"></span><span> 阅读</span></span></div><div class="clear"><div class="toc-article" id="toc"><div class="toc-title">文章目录</div><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Accustoming-yourself-to-C"><span class="toc-number">1.</span> <span class="toc-text">Accustoming yourself to C++</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#2-prefer-consts-enums-and-inlines-to-define"><span class="toc-number">1.1.</span> <span class="toc-text">2 prefer consts, enums, and inlines to #define.</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-Use-const-whenever-possible"><span class="toc-number">1.2.</span> <span class="toc-text">3 Use const whenever possible</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-Make-sure-that-objects-are-initialized-before-they’re-used"><span class="toc-number">1.3.</span> <span class="toc-text">4 Make sure that objects are initialized before they’re used.</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Constructors-destructors-and-assignment-operators"><span class="toc-number">2.</span> <span class="toc-text">Constructors, destructors, and assignment operators</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Resource-Management"><span class="toc-number">3.</span> <span class="toc-text">Resource Management</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Implementations"><span class="toc-number">4.</span> <span class="toc-text">Implementations</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Ihheritance-and-Object-Oriented-Design"><span class="toc-number">5.</span> <span class="toc-text">Ihheritance and Object-Oriented Design</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Templates-and-Generic-Programming"><span class="toc-number">6.</span> <span class="toc-text">Templates and Generic Programming</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Customizing-new-and-delete"><span class="toc-number">7.</span> <span class="toc-text">Customizing new and delete</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Miscellany"><span class="toc-number">8.</span> <span class="toc-text">Miscellany</span></a></li></ol></div></div><div class="post-content"><h3 id="Accustoming-yourself-to-C"><a href="#Accustoming-yourself-to-C" class="headerlink" title="Accustoming yourself to C++"></a>Accustoming yourself to C++</h3><h4 id="2-prefer-consts-enums-and-inlines-to-define"><a href="#2-prefer-consts-enums-and-inlines-to-define" class="headerlink" title="2 prefer consts, enums, and inlines to #define."></a>2 prefer <code>const</code>s, <code>enum</code>s, and <code>inline</code>s to <code>#define</code>.</h4><ol>
+<li>One special case need to be noted is class-specific constants. check this question in <a href="http://stackoverflow.com/questions/185844/initializing-private-static-members" target="_blank" rel="noopener">stackOverflow</a></li>
+<li>difference between declaration and definition. Check this question in <a href="http://stackoverflow.com/questions/1410563/what-is-the-difference-between-a-definition-and-a-declaration" target="_blank" rel="noopener">stackOverflow</a></li>
+</ol>
+<h4 id="3-Use-const-whenever-possible"><a href="#3-Use-const-whenever-possible" class="headerlink" title="3 Use const whenever possible"></a>3 Use <code>const</code> whenever possible</h4><ol>
+<li>declaring an iterator const is like declaring a pointer const. <code>const std::vector&amp;lt;int&amp;gt;::iterator iter = ...</code>, here iter acts like a <code>T* const</code>. If you want an iterator that points to something that can’t be modified, you want a <code>const_iterator</code>.</li>
+<li>when const and non-const member functions have essentially identical implementations, code duplication can be avoided by having the non-const version call the const version.</li>
+</ol>
+<h4 id="4-Make-sure-that-objects-are-initialized-before-they’re-used"><a href="#4-Make-sure-that-objects-are-initialized-before-they’re-used" class="headerlink" title="4 Make sure that objects are initialized before they’re used."></a>4 Make sure that objects are initialized before they’re used.</h4><ol>
+<li>For constructor of a class, prefer using initialization list to assignment inside the body of the constructor.</li>
+<li>order in which an object’s data is initialized: base classes are initialized before derived classes, and within a class, data members are initialized in the order in which they are declared.</li>
+<li>avoid initialization order problems across translation units by replacing non-local static objects with local static objects.</li>
+</ol>
+<h3 id="Constructors-destructors-and-assignment-operators"><a href="#Constructors-destructors-and-assignment-operators" class="headerlink" title="Constructors, destructors, and assignment operators"></a>Constructors, destructors, and assignment operators</h3><ol>
+<li>To <strong>disallow</strong> functionality automatically provided by compilers, declare the corresponding member functions <code>private</code> and give no implementations. Using a base class like <code>Uncopyable</code> is one way to do this. [For <strong>c++11</strong>, you could use <code>= delete</code>.]</li>
+<li>declare desturctors virtual in <strong>polymorphic base</strong> classes. If a class has any virtual functions, it should have a <strong>virtual destructor</strong>.</li>
+<li>prevent <strong>exceptions</strong> from leaving <strong>destructors</strong>. If function called in a destructor may throw, the destructor should catch any exceptions, then swallow them or terminate the program.</li>
+<li>don’t call <strong>virtual</strong> functions during construction or destruction.</li>
+<li>have <strong>assignment</strong> operators return a reference to <code>*this</code></li>
+<li>make sure <strong>operator=</strong> is well-behaved when an object is assigned to itself: comparing addresses of source and target objects, careful statement ordering, and copy-and-swap.</li>
+</ol>
+<h3 id="Resource-Management"><a href="#Resource-Management" class="headerlink" title="Resource Management"></a>Resource Management</h3><ol>
+<li>To prevent resource leaks, use RAII(resource Acquisition Is Initialization) oejects that acquire resources in their constructors and release them in their destructors.( auot_ptr and tr1::shared_ptr)[ For <strong>c++11</strong>, <code>shared_ptr</code> and <code>unique_ptr</code>.]</li>
+<li>when you use [] in <code>new</code>, remember use <code>delete []</code></li>
+<li>store <em>newwd</em> objects in smart pointers in standalone statements. Failure to do this can lead to subtle resource leaks when exceptions are thrown.</li>
+<li>Prefer <strong>pass-by-reference-to-const</strong> over pass-by-value. It’s typically more efficient and it avoids the slicing problem. The rule doesn’t apply to built-in types and STL iterator and function object types.</li>
+<li>don’t try to return a reference when you must return an object.</li>
+<li>declare date members <code>private</code>; <code>protected</code> is no more encapsulated than <code>public</code></li>
+<li>prefer <strong>non-member non-friend functions</strong> to member functions. Doing so increase encapsulation, packaging flexibility, and functional extensibility.</li>
+<li>declare non-member functions when <strong>type conversions</strong> should aply to all parameters. For example, define <code>operator*</code> for class <code>Rational</code>.</li>
+<li><strong>Swap</strong><pre><code>1.  provide a `swap` member function when `std::swap` would be _inefficient_ for your type. Make sure your `swap` doesn’t throw exceptions
+</code></pre><ol start="2">
+<li>if you offer a member <code>swap</code>, also offer a non-member <code>swap</code> that calls the member. For classes(not templates), specialize <code>std::swap</code>(<em>total template specialization</em>).</li>
+<li>when calling <code>swap</code>, employ a <code>using</code> delcaration for <code>std::swap</code>, then call <code>swap</code> without namespace qualification.</li>
+<li>If’s fine to totally specialize <code>std</code> templates for user-defined types, but never try to add something completely new to <code>std</code>.</li>
+</ol>
+</li>
+</ol>
+<h3 id="Implementations"><a href="#Implementations" class="headerlink" title="Implementations"></a>Implementations</h3><ol>
+<li>postphone variable definitions as long as possible.</li>
+<li>avoid <strong>casts</strong> whenever practical, especially <code>dynamic_cast</code>s in performance-sensitive code. If a design requires casting, try to develop a cast-free alternative.</li>
+<li>avoid <strong>returning handles</strong> (references, pointers, or iterators) to object internals. It increase encapsulation, helps <code>const</code> member functions act <code>const</code>, and minimizes the creation of dangling handles.</li>
+<li>strive for <strong>exception-safe code</strong><br>Exception-safe functions leak no resources and allow no data structures to become corrupted, even when exceptions are thrown. Such functions offer the basic, strong, or nothrow guarantees.</li>
+<li>Limit most <strong>inlining</strong> to small, frequently called functions. This facilitates debugging and binary upgradability, minimizes potential code bloat, and maximizes the chances of greater program speed.</li>
+<li>The general idea behind <strong>minimizing compilation dependencies</strong> is to depend on declarations instead of definitions. Two approaches based on this idea are <em>Handle classes</em> and <em>Interface classes</em>.<pre><code>*   **forward declaration**, check the answers [1](http://stackoverflow.com/questions/553682/when-can-i-use-a-forward-declaration) [2](http://stackoverflow.com/questions/4757565/c-forward-declaration) in stackOverlfow.
+</code></pre><ul>
+<li><strong>pimpl idiom</strong>(pointer to implementation), check the answers <a href="http://stackoverflow.com/questions/8972588/is-the-pimpl-idiom-really-used-in-practice" target="_blank" rel="noopener">1</a> <a href="http://stackoverflow.com/questions/60570/why-should-the-pimpl-idiom-be-used" target="_blank" rel="noopener">2</a> <a href="http://stackoverflow.com/questions/4300696/what-is-the-iosfwd-header" target="_blank" rel="noopener">3(iosfwd)</a>*   pimpl v.s. interface, check stackOverflow <a href="http://stackoverflow.com/questions/825018/pimpl-idiom-vs-pure-virtual-class-interface?rq=1" target="_blank" rel="noopener">4</a></li>
+</ul>
+</li>
+</ol>
+<h3 id="Ihheritance-and-Object-Oriented-Design"><a href="#Ihheritance-and-Object-Oriented-Design" class="headerlink" title="Ihheritance and Object-Oriented Design"></a>Ihheritance and Object-Oriented Design</h3><ol>
+<li><strong>public inheritance</strong> means “is-a”. Everything that applies to base classes must also apply to derived classes.</li>
+<li><p>avoid hiding inherited names</p>
+<pre><code>1.  for pubic inherit, if you inherit from a base class with overloaded functions and you want to redefine or override only some of them, you need to include a `using` declaration for each name you’d otherwise be hiding. If you don’t, some of the names you’d like to inherit will be hidden.(why? first check the function name, then the type of parameter. See _c++ primer_, chap 15.6)
+</code></pre><ol start="2">
+<li>for private inherit, if you don’t want to inherit all of them, you could use inline forwarding functions instead of <code>using</code> declaration.</li>
+</ol>
+</li>
+<li><p>differentiate between <strong>inheritance</strong> of interface and inheritance of implementation</p>
+<pre><code>1.  The purpose of declaring a **pure virtual function** is to have derived classes inherit a function _interface only_.
+</code></pre><ol start="2">
+<li>The purpose of declaring a <strong>simple virtual function</strong> is to have derived classes inherit a function <em>interface as well as a default implementation</em>(sometimes maybe dangerous, could separate functions for providing interface and default implementation)</li>
+<li>The purpose of declaring a <strong>non-virtual function</strong> is to have derived classes inherit a function <em>interface as well as a mandatory implemntation</em>.</li>
+</ol>
+</li>
+<li><p>Consider <strong>alternatives to virtual functions</strong></p>
+<pre><code>*   use the **non-virtual interface idiom**(NVI idiom), a form of the  _Template Method design pattern_ that wraps public non-virtual member functions around less accessible virtual functions. Details of NVI in [wiki](https://en.wikibooks.org/wiki/More_C%2B%2B_Idioms/Non-Virtual_Interface)(noted: derived classes could redefining private virtual functions)
+</code></pre><ul>
+<li>replace virtual functions with <strong>function pointer data members</strong>, a stripped-down manifestation of the <strong>Strategy design pattern</strong><a href="https://en.wikipedia.org/wiki/Strategy_pattern" target="_blank" rel="noopener">wiki</a>.</li>
+<li>Replace virtual function with <strong>tr1::function data members</strong>, thus allowing use of any callable entity with a signature compatible with what you need.This, too, is a form of the Strategy desing pattern.[For <em>c++11</em>, it’s <strong>std::function</strong> and <strong>std::bind</strong>]</li>
+<li>replace virtual functions in one hierarchy with <strong>virtual functions in another hierarchy</strong>. This is the conventional implementation of the Strategy design pattern.</li>
+</ul>
+</li>
+<li><p>never redefine an inherited non-virtual function. cause non-virtual functions are statically bound.</p>
+</li>
+<li>never redefine an inherited default parameter value, because <em>default parameter values are statically bound</em>, while virtual functions- the only functions you should be overriding - are dynamically bound.</li>
+<li>Model ‘has-a’ or ‘is-implemented-in-terms-of’ through composition.</li>
+<li><strong>private inheritance</strong> means <em>is-implemented-in-terms-of</em>. It’s usually inferior to composition, but it makes sense when a derived class needs to composition(mixture of public inheritance and containment), but it makes sense when a derived class needs access to protected base class members or needs to redefine inherited virtual functions. private inheritance can enable the <em>empty base optimization</em>(“empty” class never have non-static data members, but contain typedefs, enums, static data members, or non-virtual functions), which could minimize object sizes.</li>
+<li><strong>Multiple inheritance</strong> can lead to new ambiguity issues and to the need for <strong>virtual inheritance</strong>. Virtual inheritance imposes costs in size, speed, and complexity of initialization and assignment. It’s most practical when virtual base classes have no data.<br>One scenario involves combining public inheritance from an Interface class with private inheritance from a class that helps with implementation.</li>
+</ol>
+<h3 id="Templates-and-Generic-Programming"><a href="#Templates-and-Generic-Programming" class="headerlink" title="Templates and Generic Programming"></a>Templates and Generic Programming</h3><ol>
+<li><p>both classes and templates support <strong>interfaces and polymorphism</strong></p>
+<pre><code>1.  classes: interfaces are explicit and centered on function signatures. Polymorphism: runtime through virtual functions
+</code></pre><ol start="2">
+<li>template parameters: interfaces are implicit and based on valid expression. Polymorphism: compilation through template instantiation and function overloading resolution.</li>
+</ol>
+</li>
+<li><p>when declaring template paramters, <code>class</code> and <code>typename</code> are interchangeable. use <strong><code>typename</code></strong> to identify <em>nested dependent type names</em>, except in base class lists or as a base class identifier in a member initialization list.</p>
+</li>
+<li>In derived class templates, refer to names in <strong>base class templates</strong> via a <code>this-&amp;gt;</code> prefix , via <code>using</code> declarations, or via an explicit base class qualification.</li>
+<li><p><strong>factor parameter-independent code out of templates</strong>: templates generate multiple classes and multiple functions, which may cause bloat. about <em>non-type parameter</em>, check this in <a href="http://stackoverflow.com/questions/5687540/non-type-template-parameters" target="_blank" rel="noopener">stackOverflow</a></p>
+<pre><code>1.  bloat due to non-type template parameters can often be eliminated by replacing template parameters with funciton parameters or class data members.
+</code></pre><ol start="2">
+<li>bloat due to parameters can be reduced by sharing implementations for instantiation types with identical binary representations.</li>
+</ol>
+</li>
+<li><p>use <strong>member function templates</strong> to generate functions that accept all compatible types.(kind of similar to Covariance and Contravariance in scala) (could use private build-in pointer the control the conversion, thus make it “covariance”).<br>If you declare member templates for generalized copy construction or generalized assignment, you’ll still need to declare the normal copy constructor and copy assignment operator, too.</p>
+</li>
+<li>When writing a class template that offers functions related to the template that support <strong>implicit type conversions on all parameters</strong>(see list 8 in <em>Resource Management</em> part), define thoses functions as friends inside the class template.7.  <strong>Traits</strong> classes make information about types available during compilation. They’re implemented using templates and template specializations. In conjunction with overloading, traits classes make it possible to perform compile-time <em>if…else</em> tests on types.(create a set of overloaded “worker” functions or function templates that differ in a traits parameter).</li>
+<li><p><strong>Template metaprogramming</strong>(TMP) could shift work from runtime to compile-time, thus enabling earlier error detection and higher runtime performance. One “hello word”-type example:</p>
+<pre><code>template&amp;lt;unsigned n&amp;gt;
+</code></pre><p>struct Factorial{</p>
+<pre><code>enum{ value = n * Factorial&amp;lt;n-1&amp;gt;::value};
+</code></pre><p>};<br>template&lt;&gt;<br>struct Factorial&lt;0&gt;{</p>
+<pre><code>enum {value = 1};
+</code></pre><p>}</p>
+</li>
+</ol>
+<h3 id="Customizing-new-and-delete"><a href="#Customizing-new-and-delete" class="headerlink" title="Customizing new and delete"></a>Customizing <code>new</code> and <code>delete</code></h3><ol>
+<li><p>understand the behavior of the **new-handler</p>
+<pre><code>1.  well-designed new-handler function must do one of the following:
+
+        *   Make more memory available
+*   install a different new-handler
+*   deinstall the new-handler
+*   throw an exception
+*   not return(abort or exit)
+
+2.  `set_new_hadler` allows you to specify a function to be called when memory allocation requests cannot be satisfied.
+</code></pre><ol start="3">
+<li><em>Nothrow new</em> is of limited utility, because it applies only to memory allocation. subsequent constructor calls may still throw exceptions.</li>
+</ol>
+</li>
+<li><p>few reasons to write custom versions of <code>new</code> and <code>delete</code>.</p>
+<pre><code>*   to detect usage errors
+</code></pre><ul>
+<li>to collect statistics about the use of dynamically allocated memory</li>
+<li>to increase the speed of allocation and deallocation</li>
+<li>to reduce the space overhead of default memory management</li>
+<li>to compensate for suboptimal alignment in the default allocator</li>
+<li>to cluster related objects near one another</li>
+<li>to obtain unconventional behavior.</li>
+</ul>
+</li>
+<li><p>operator <code>new</code> should contain an <em>infinite loop</em> trying to allocate memory, should call the new-handler if it can’t satisfy a memory request, and should handle requests for zero bytes. Class-specific versions should handle requests for larger blocks than expected(use standard operator new).<br>operator <code>delete</code> should do nothing if passed a pointer that is null. Class-specific versions should handle blocks that are larger than expected.(use standard operator delete)</p>
+</li>
+<li>when you are write a <strong>placement version of operator new</strong>, be sure to write the corresponding placement version of operator delete. If you don’t, your program may experience subtle, intermittent memory leaks.<br>When you declare placement versions of <code>new</code> and <code>delete</code>, be sure not to unintentionally hide the normal versions of those functions.</li>
+</ol>
+<h3 id="Miscellany"><a href="#Miscellany" class="headerlink" title="Miscellany"></a>Miscellany</h3><ol>
+<li>pay attention to compiler warnings, understand exactly what it’s trying to tell you.</li>
+<li>Familiarize yourself with Boost.</li>
+</ol>
+</div><div class="tags"><a href="/tags/programming/">programming</a><a href="/tags/c/">c++</a></div><div class="post-nav"><a class="pre" href="/2016/09/10/Libnids抓不到包/">Libnids抓不到包</a><a class="next" href="/2016/03/24/《百年孤独》家谱/">《百年孤独》家谱</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="http://yoursite.com"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/python/" style="font-size: 15px;">python</a> <a href="/tags/ESL/" style="font-size: 15px;">ESL</a> <a href="/tags/linux/" style="font-size: 15px;">linux</a> <a href="/tags/programming/" style="font-size: 15px;">programming</a> <a href="/tags/c/" style="font-size: 15px;">c++</a> <a href="/tags/摄影/" style="font-size: 15px;">摄影</a> <a href="/tags/ML/" style="font-size: 15px;">ML</a> <a href="/tags/plot/" style="font-size: 15px;">plot</a> <a href="/tags/NLP/" style="font-size: 15px;">NLP</a> <a href="/tags/Reinforcement-learning/" style="font-size: 15px;">Reinforcement learning</a> <a href="/tags/IR/" style="font-size: 15px;">IR</a> <a href="/tags/scala/" style="font-size: 15px;">scala</a> <a href="/tags/Reading/" style="font-size: 15px;">Reading</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/03/27/photograph-canon/">photograph-canon</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/11/22/linux-tips/">linux_tips</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/09/10/ESL-chap2-notes/">ESL_chap2_notes</a></li><li class="post-list-item"><a class="post-list-link" href="/2017/08/28/scala-notes/">scala notes</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/11/22/读Paper-information-extraction-by-acquiring-external-evidence-with-reinforcement-learning/">[读Paper]information-extraction-by-acquiring-external-evidence-with-reinforcement-learning</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/10/Libnids抓不到包/">Libnids抓不到包</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/08/25/effective-c-notes/">effective c++ notes</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/03/24/《百年孤独》家谱/">《百年孤独》家谱</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/02/25/matplotlib/">matplotlib</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2018 <a href="/." rel="nofollow">墨写.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/3.2.5/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/fancybox/3.2.5/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
