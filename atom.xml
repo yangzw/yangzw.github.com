@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2018-04-01T14:30:34.000Z</updated>
+  <updated>2018-05-19T06:13:04.188Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -15,6 +15,32 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Paper|sentence_ordering_and_coherence_modeling</title>
+    <link href="http://yoursite.com/2018/05/19/sentence-ordering-and-coherence-modeling/"/>
+    <id>http://yoursite.com/2018/05/19/sentence-ordering-and-coherence-modeling/</id>
+    <published>2018-05-19T04:15:02.000Z</published>
+    <updated>2018-05-19T06:13:04.188Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><p>如何理解文本的连贯性和句子间的内在结构联系，对于<strong>多文本摘要</strong>、<strong>QA</strong>等NLP问题来说十分重要。这篇文章基于set-to-sequence框架，提出了一种RNN-base的端到端的深度学习方法，来解决句子的排序和连贯性问题。</p><h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><ol><li>给一个文档和它打乱的句子集合， 模型对句子进行排序。</li><li>给一个文档和他打乱的句子集合， 模型选取句子作为文档的摘要。这篇文章选取的是科学文章，它的摘要比较规范。</li></ol><h2 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h2><p>模型模仿了人类解决这个问题的思维，即先读取句子理解它们的意思，排序时再一个一个选择句子。主要分为<em>read</em>， <em>process</em> 和<em>write</em>三个部分。</p><p>我们首先来看下模型的框架, 主要由一个 sentence encoder RNN， set encoder RNN和decoder RNN组成。<br><img src="/images/sentence_ordering_framework.png" alt="model framework"></p><p><strong><code>read</code></strong><br>sentence encoder RNN没什么好讲的，就是一个LSTM网络把各个句子给向量化，得到${s_1, s_2, …, s_n}$， 它们被用作为<em>sentence memeory</em></p><p><strong><code>process</code></strong><br>就是图中的set encoder部分。LSTM网络每一步的输入是前一步的hidden state与memory进行<strong>attention</strong>得到。set encoder会执行m步，称为<em>read cycles</em>, 注意到这个encoder的结果与${s_1, s_2, …, s_n}$的顺序是不相干的。<br><img src="/images/sentence_ordering_encoder.png" alt="set encoder"></p><p><strong><code>write</code></strong><br>decoder是一个<em>pointer network</em>, 在训练时，正确顺序的句子$(s_{o_1}, s_{o_2},…,s_{o_n}) = (x^1, x^2,…,x^n)$ 作为LSTM的输入。预测时前一步的输出$\hat x^{t-1}$作为当前的输入。这里$e^{t,i}_{dec}$ 代表的是在位置$t$，$s_i$作为正确句子的概率。$f$是score函数，可以选择一层feed-forward网络等。<br><img src="/images/sentence_ordering_decoder.png" alt="decoder"></p><p><strong><code>contrastive sentences</code></strong><br>为了增加鲁棒性，加入一些随机句子。</p><p><strong><code>coherence modeling</code> and <code>training objective</code></strong><br>对于一个结果$(s_{p1}, s_{p2},…,s_{pk}$, coherence score的定义如下:<br><img src="/images/sentence_ordering_coherence.png" alt="coherence score"></p><p>故最大似然的目标函数是<br><img src="/images/sentence_ordering_objective.png" alt="objective"></p><h2 id="实验和扩展"><a href="#实验和扩展" class="headerlink" title="实验和扩展"></a>实验和扩展</h2><p><em>order descrimination</em><br>即给定一个paragraph和它打乱重组的版本集合，选出最相近的，这个问题挑战性并不大。</p><p><em>sentence ordering</em><br>给定一堆句子，给它们排序组合成一个段落。主要选取的是科技论文的摘要，因为它们的逻辑结构比较清晰。</p><p><em>sentence ordering and summarization</em><br>可以把模型应用于文档摘要，输入文章的句子，然后按照顺序挑选出句子直到预测出结束符。由于这里不要求输入句子的顺序，故也适用于多文档摘要。可以用事先在ordering task上训练好模型，然后将其用于改善摘要模型。而ordering task可以用大量的<em>未标注语料</em>实现，这点是相当有价值的。</p><p><em>learned sentence representations</em><br>训练好的sentence encoder 可以用来做句子的向量表达，提升其它任务的表现。</p>]]></content>
+    
+    <summary type="html">
+    
+      基于set-to-sequence框架，提出了一种RNN-base的端到端的深度学习方法，来解决句子的排序和连贯性问题。
+    
+    </summary>
+    
+      <category term="nlp" scheme="http://yoursite.com/categories/nlp/"/>
+    
+    
+      <category term="NLP" scheme="http://yoursite.com/tags/NLP/"/>
+    
+      <category term="Deep Learning" scheme="http://yoursite.com/tags/Deep-Learning/"/>
+    
+      <category term="Summarization" scheme="http://yoursite.com/tags/Summarization/"/>
+    
+  </entry>
   
   <entry>
     <title>selenium-如何实现重复使用已经打开的浏览器</title>
@@ -69,7 +95,7 @@
     <published>2017-11-22T13:44:21.000Z</published>
     <updated>2018-03-29T14:27:06.000Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="zssh解决跳板机传输文件"><a href="#zssh解决跳板机传输文件" class="headerlink" title="zssh解决跳板机传输文件"></a>zssh解决跳板机传输文件</h3><p>很多时候我们需要先通过跳板机去登陆服务器，这样传输文件就很麻烦。还好我们有<del>汰渍</del><code>zssh</code><br>在本机和服务器都安装好zssh后，就可以上传和下载文件了。具体做法：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">ssh yourgateway</span><br><span class="line">ssh your_remote_server</span><br><span class="line"><span class="meta">#</span><span class="bash">upload</span></span><br><span class="line">rz -bye</span><br><span class="line">ctrl + @        #press ctrl + space, swithing to your local dir</span><br><span class="line"><span class="meta">zssh&gt;</span><span class="bash"> sz file_you_want_to_upload</span></span><br><span class="line"><span class="meta">#</span><span class="bash">download</span></span><br><span class="line">sz file_you_want_to_download</span><br><span class="line">ctrl + @</span><br><span class="line"><span class="meta">zssh&gt;</span><span class="bash"> rz -<span class="built_in">bye</span></span></span><br></pre></td></tr></table></figure><h3 id="Goole-Driver-CLI-Client"><a href="#Goole-Driver-CLI-Client" class="headerlink" title="Goole-Driver-CLI-Client"></a>Goole-Driver-CLI-Client</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:nilarimogard/webupd8</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install grive</span><br></pre></td></tr></table></figure>]]></content>
+    <content type="html"><![CDATA[<h3 id="zssh解决跳板机传输文件"><a href="#zssh解决跳板机传输文件" class="headerlink" title="zssh解决跳板机传输文件"></a>zssh解决跳板机传输文件</h3><p>很多时候我们需要先通过跳板机去登陆服务器，这样传输文件就很麻烦。还好我们有<del>汰渍</del><code>zssh</code><br>在本机和服务器都安装好zssh后，就可以上传和下载文件了。具体做法：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">ssh yourgateway</span><br><span class="line">ssh your_remote_server</span><br><span class="line"><span class="meta">#</span>upload</span><br><span class="line">rz -bye</span><br><span class="line">ctrl + @        #press ctrl + space, swithing to your local dir</span><br><span class="line"><span class="meta">zssh&gt;</span> sz file_you_want_to_upload</span><br><span class="line"><span class="meta">#</span>download</span><br><span class="line">sz file_you_want_to_download</span><br><span class="line">ctrl + @</span><br><span class="line"><span class="meta">zssh&gt;</span> rz -bye</span><br></pre></td></tr></table></figure><h3 id="Goole-Driver-CLI-Client"><a href="#Goole-Driver-CLI-Client" class="headerlink" title="Goole-Driver-CLI-Client"></a>Goole-Driver-CLI-Client</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:nilarimogard/webupd8</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install grive</span><br></pre></td></tr></table></figure>]]></content>
     
     <summary type="html">
     
